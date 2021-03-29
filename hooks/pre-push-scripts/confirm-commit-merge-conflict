@@ -1,0 +1,21 @@
+#!/bin/bash
+
+BRANCH=$( echo "$2" | sed -e "s/refs\/heads\///g" )
+
+DIFF=$( git diff --cached $1'/'$BRANCH | grep -c '[<].*HEAD' )
+
+if [[ $DIFF -eq 0 ]]; then
+    echo -e "\033[0;32mMerge conflict check passed!\033[0m"
+    exit 0
+fi
+
+echo -en "\033[1;33mYou're about to commit an uncorrected merge conflict, is that what you intended? [y|n] \033[0m"
+echo -en "\033[1m"
+read -n 1 -r < /dev/tty
+echo -en "\033[0m"
+
+echo
+if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+    exit 0 # push will execute
+fi
+exit 1 # push will not execute 

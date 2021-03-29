@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# This script forces you to confirm that you are pushing to non-Feature branch.
+if [[ "$2" != *"feature"* ]]; then
+    echo -en "\033[1;33mYou're about to push to a non-Feature branch. Have you confirmed this code is not broken? [y|n] \033[0m"
+    echo -en "\033[1m"
+    read -n 1 -r < /dev/tty
+    echo -en "\033[0m"
+
+    echo
+    if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+        exit 0 # push will execute
+    fi
+    exit 1 # push will not execute
+else
+    echo -e "\033[0;32mConfirmed pushing to feature branch...\033[0m"
+    exit 0
+fi
