@@ -1,5 +1,5 @@
 #!/bin/bash
-HOOKS_DIR=$( git config -l | grep hooks | sed -e 's/.*=//g' )
+HOOKS_DIR=$( git config -l | grep hookspath | sed -e 's/.*=//g' )
 if read local_ref local_sha remote_ref remote_sha; then
     hooks=($( ls $HOOKS_DIR/pre-push-scripts/* ))
     for i in "${hooks[@]}"
