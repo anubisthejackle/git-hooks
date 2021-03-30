@@ -1,8 +1,6 @@
 #!/bin/bash
 
-BRANCH=$( echo "$2" | sed -e "s/refs\/heads\///g" )
-
-DIFF=$( git diff --cached $1'/'$BRANCH | grep -c '[<].*HEAD' )
+DIFF=$( git diff --cached HEAD | grep -c '[<].*HEAD' )
 
 if [[ $DIFF -eq 0 ]]; then
     echo -e "\033[0;32mMerge conflict check passed!\033[0m"
@@ -16,6 +14,6 @@ echo -en "\033[0m"
 
 echo
 if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
-    exit 0 # push will execute
+    exit 0 # Commit will execute
 fi
-exit 1 # push will not execute 
+exit 1 # Commit will not execute 
