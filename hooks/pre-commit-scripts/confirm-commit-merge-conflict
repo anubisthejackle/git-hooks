@@ -1,6 +1,5 @@
 #!/bin/bash
 
-exit 1;
 DIFF=$( git diff --cached HEAD | grep -c '[<].*HEAD' )
 
 if [[ $DIFF -eq 0 ]]; then
