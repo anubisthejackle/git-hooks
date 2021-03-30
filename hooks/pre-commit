@@ -1,0 +1,9 @@
+#!/bin/bash
+HOOKS_DIR=$( git config -l | grep hookspath | sed -e 's/.*=//g' )
+
+hooks=($( ls $HOOKS_DIR/pre-commit-scripts/* ))
+for i in "${hooks[@]}"
+do
+    $i $1 $remote_ref || exit 1
+done
+
