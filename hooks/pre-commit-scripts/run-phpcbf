@@ -22,6 +22,10 @@ if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
     echo "Running PHPCBF on $files..."
     $PHPCBF $files
     PHPCBFRETURN=$?
+
+    # Add any modified files to this commit.
+    git add $files
+    
     if [ ! $PHPCBFRETURN -eq 0 ]; then
         echo -en "\033[1;33mPHPCBF has failed, allow commit anyway? [y|n] \033[0m"
         echo -en "\033[1m"
@@ -30,7 +34,6 @@ if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
         echo ""
         if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
             echo -e "\033[0;32mContinuing with commit...\033[0m"
-            git add $files
             exit 0
         else
             echo -e "\033[0;32mCanceling commit...\033[0m"
