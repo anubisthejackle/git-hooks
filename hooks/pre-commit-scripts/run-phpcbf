@@ -2,7 +2,7 @@
 
 files=$(git diff --cached --name-status | awk '$1 != "D" { print $2 }')
 lc_files=`echo $files | tr '[A-Z]' '[a-z]'`
-if [[ $lc_files != *"php"* ]]; then
+if [[ $lc_files != *".php"* ]]; then
     exit 0
 fi
 
