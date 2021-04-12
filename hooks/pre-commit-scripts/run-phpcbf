@@ -1,5 +1,11 @@
 #!/bin/bash
 
+files=$(git diff --cached --name-status | awk '$1 != "D" { print $2 }')
+lc_files=`echo $files | tr '[A-Z]' '[a-z]'`
+if [[ $lc_files != *"php"* ]]; then
+    exit 0
+fi
+
 PHPCBF=$( which phpcbf )
 
 if [ ! -f "$PHPCBF" ]; then
@@ -11,7 +17,25 @@ echo -en "\033[1;33mWould you like to run PHPCBF? [y|n] \033[0m"
 echo -en "\033[1m"
 read -n 1 -r < /dev/tty
 echo -en "\033[0m"
+echo ""
 if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
-    $PHPCBF
-    exit $?
+    echo "Running PHPCBF on $files..."
+    $PHPCBF $files
+    PHPCBFRETURN=$?
+    if [ ! $PHPCBFRETURN -eq 0 ]; then
+        echo -en "\033[1;33mPHPCBF has failed, allow commit anyway? [y|n] \033[0m"
+        echo -en "\033[1m"
+        read -n 1 -r < /dev/tty
+        echo -en "\033[0m"
+        echo ""
+        if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+            echo -e "\033[0;32mContinuing with commit...\033[0m"
+            exit 0
+        else
+            echo -e "\033[0;32mCanceling commit...\033[0m"
+            exit $PHPCBFRETURN
+        fi
+    fi
+    echo -e "\033[0;32mPHPCBF has completed successfully...\033[0m"
 fi
+exit 0
