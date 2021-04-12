@@ -6,37 +6,36 @@ if [[ $lc_files != *".php"* ]]; then
     exit 0
 fi
 
-PHPCBF=$( which phpcbf )
+PHPCS=$( which phpcs )
 
-if [ ! -f "$PHPCBF" ]; then
-    # PHPCBF isn't installed, skip.
+if [ ! -f "$PHPCS" ]; then
+    # PHPCS isn't installed, skip.
     exit 0;
 fi
 
-echo -en "\033[1;33mWould you like to run PHPCBF? [y|n] \033[0m"
+echo -en "\033[1;33mWould you like to run PHPCS? [y|n] \033[0m"
 echo -en "\033[1m"
 read -n 1 -r < /dev/tty
 echo -en "\033[0m"
 echo ""
 if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
-    echo "Running PHPCBF on $files..."
-    $PHPCBF $files
-    PHPCBFRETURN=$?
-    if [ ! $PHPCBFRETURN -eq 0 ]; then
-        echo -en "\033[1;33mPHPCBF has failed, allow commit anyway? [y|n] \033[0m"
+    echo "Running PHPCS on $files..."
+    $PHPCS $files
+    PHPCSRETURN=$?
+    if [ ! $PHPCSRETURN -eq 0 ]; then
+        echo -en "\033[1;33mPHPCS has failed, allow commit anyway? [y|n] \033[0m"
         echo -en "\033[1m"
         read -n 1 -r < /dev/tty
         echo -en "\033[0m"
         echo ""
         if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
             echo -e "\033[0;32mContinuing with commit...\033[0m"
-            git add $files
             exit 0
         else
             echo -e "\033[0;32mCanceling commit...\033[0m"
-            exit $PHPCBFRETURN
+            exit $PHPCSRETURN
         fi
     fi
-    echo -e "\033[0;32mPHPCBF has completed successfully...\033[0m"
+    echo -e "\033[0;32mPHPCS has completed successfully...\033[0m"
 fi
 exit 0
