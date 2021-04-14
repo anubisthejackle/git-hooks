@@ -11,10 +11,10 @@ setup() {
     PATH="$DIR/../../hooks/pre-commit-scripts:$PATH"
 
     _GIT_ARGS="diff --cached HEAD"
-    enable -n read
+    
     stub git "${_GIT_ARGS} : echo 'Not broken'" \
              "${_GIT_ARGS} : echo '<<<<HEAD'"
-    stub read " : echo 'Y\r'"
+    
 }
 
 @test "Merge conflict script executes" {
@@ -22,6 +22,8 @@ setup() {
 }
 
 @test "Merge conflict script exits with 0 when passed Y to request for input" {
+    enable -n read
+    stub read "-n 1 -r < /dev/tty : echo 'Y\r'"
     confirm-commit-merge-conflict
     refute_output --partial "Merge conflict check passed"
     [ "$status" -eq 0 ]
