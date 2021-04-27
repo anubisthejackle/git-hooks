@@ -1,9 +1,20 @@
 #!/bin/bash
+
 HOOKS_DIR=$( git config -l | grep hookspath | sed -e 's/.*=//g' )
 if read local_ref local_sha remote_ref remote_sha; then
     hooks=($( ls $HOOKS_DIR/pre-push-scripts/* ))
     for i in "${hooks[@]}"
     do
-        $i $1 $remote_ref || exit 1
+        # If the found script is executable, run it, otherwise we'll see errors.
+        if [ -x $i ]; then
+            $i $1 $remote_ref || exit 1
+        fi
     done
+
+    # If a local pre-push hook is found, and is executable, run it.
+    if [ -x .git/hooks/pre-push ]; then
+        # Pass all of the parameters, unmodified, to the project hooks.
+        # We do this so we don't interfere with anything that might be going on already.
+        .git/hooks/pre-push $1 $local_ref $local_sha $remote_ref $remote_sha || exit 1
+    fi
 fi
