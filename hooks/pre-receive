@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# If a local pre-receive hook is found, and is executable, run it.
+if [ -x .git/hooks/pre-receive ]; then
+    .git/hooks/pre-receive || exit 1
+fi

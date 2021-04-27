@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# If a local update hook is found, and is executable, run it.
+if [ -x .git/hooks/update ]; then
+    # Pass all of the parameters, unmodified, to the project hooks.
+    # We do this so we don't interfere with anything that might be going on already.
+    .git/hooks/update $1 $2 $3 || exit 1
+fi

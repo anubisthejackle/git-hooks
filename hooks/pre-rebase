@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# If a local pre-rebase hook is found, and is executable, run it.
+if [ -x .git/hooks/pre-rebase ]; then
+    # Pass all of the parameters, unmodified, to the project hooks.
+    # We do this so we don't interfere with anything that might be going on already.
+    .git/hooks/pre-rebase $1 $2 || exit 1
+fi

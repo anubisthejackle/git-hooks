@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# If a local pre-merge-commit hook is found, and is executable, run it.
+if [ -x .git/hooks/pre-merge-commit ]; then
+    .git/hooks/pre-merge-commit || exit 1
+fi
