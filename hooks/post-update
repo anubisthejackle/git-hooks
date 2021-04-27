@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# If a local post-update hook is found, and is executable, run it.
+if [ -x .git/hooks/post-update ]; then
+    .git/hooks/post-update || exit 1
+fi
