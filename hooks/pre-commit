@@ -4,6 +4,14 @@ HOOKS_DIR=$( git config -l | grep hookspath | sed -e 's/.*=//g' )
 hooks=($( ls $HOOKS_DIR/pre-commit-scripts/* ))
 for i in "${hooks[@]}"
 do
-    $i $1 $remote_ref || exit 1
+    if [ -x $i ]; then
+        $i || exit 1
+    fi
 done
 
+# If a local pre-commit hook is found, and is executable, run it.
+if [ -x .git/hooks/pre-commit ]; then
+    # Pass all of the parameters, unmodified, to the project hooks.
+    # We do this so we don't interfere with anything that might be going on already.
+    .git/hooks/pre-commit || exit 1
+fi
