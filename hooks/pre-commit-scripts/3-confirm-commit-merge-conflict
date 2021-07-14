@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIFF=$( git diff --cached HEAD | grep -c '[<].*HEAD' )
+DIFF=$( git diff --cached HEAD | grep -c '[<]{7} HEAD' )
 
 if [[ $DIFF -eq 0 ]]; then
     echo -e "\033[0;32mMerge conflict check passed!\033[0m"
