@@ -9,7 +9,7 @@ and then run this command:
 git config --global core.hooksPath={directory of git-hooks folder}
 ```
 
-This modifies your hooks path globally, whih directs all hooks to run through the git hooks folder. This will then execute the hooks here, which have been activated, and then execute the local project `.git/hooks/` script that corresponds to the hook you are executing.
+This modifies your hooks path globally, which directs all hooks to run through the git hooks folder. This will then execute the hooks here, which have been activated, and then execute the local project `.git/hooks/` script that corresponds to the hook you are executing.
 
 ## Pre-Push Hooks
 These hooks are performed whenever you run `git push` in a repository that has changes to push.
