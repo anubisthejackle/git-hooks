@@ -1,5 +1,5 @@
 # Git Hooks
-This is my collection of GIT hooks that should be used with any project that I work with. Each hook can be activated or deactived simply by removing it fromt he folder corresponding to it's action, or -- unconfirmed -- by removing it's executability.
+This is my collection of GIT hooks that should be used with any project that I work with. Each hook can be activated or deactived simply by removing it from the folder corresponding to it's action, or by removing it's executability.
 
 ## Installation
 Installing these git hooks is very simple. First, you clone the repository into any folder that you would like,
