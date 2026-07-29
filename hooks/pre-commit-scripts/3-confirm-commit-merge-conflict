@@ -7,6 +7,10 @@ if [[ $DIFF -eq 0 ]]; then
     exit 0
 fi
 
+if ! [ -r /dev/tty ]; then
+    echo -e "\033[0;31mMerge conflict markers detected and no TTY available to confirm. Blocking commit.\033[0m"
+    exit 1
+fi
 echo -en "\033[1;33mYou're about to commit an uncorrected merge conflict, is that what you intended? [y|n] \033[0m"
 echo -en "\033[1m"
 read -n 1 -r < /dev/tty

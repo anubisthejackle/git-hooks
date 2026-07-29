@@ -11,6 +11,10 @@ elif [[ "$2" == *"fix"* ]]; then
     echo -e "\033[0;32mConfirmed pushing to fix branch...\033[0m"
     exit 0
 else
+    if ! [ -r /dev/tty ]; then
+        echo -e "\033[0;32mNo TTY available, auto-confirming non-feature branch push...\033[0m"
+        exit 0
+    fi
     echo -en "\033[1;33mYou're about to push to a non-Feature branch. Have you confirmed this code is not broken? [y|n] \033[0m"
     echo -en "\033[1m"
     read -n 1 -r < /dev/tty
