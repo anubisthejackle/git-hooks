@@ -11,7 +11,7 @@ elif [[ "$2" == *"fix"* ]]; then
     echo -e "\033[0;32mConfirmed pushing to fix branch...\033[0m"
     exit 0
 else
-    if ! [ -r /dev/tty ]; then
+    if ! { : < /dev/tty; } 2>/dev/null; then
         echo -e "\033[0;32mNo TTY available, auto-confirming non-feature branch push...\033[0m"
         exit 0
     fi

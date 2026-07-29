@@ -13,7 +13,7 @@ if [ ! -f "$PHPCBF" ]; then
     exit 0;
 fi
 
-if ! [ -r /dev/tty ]; then
+if ! { : < /dev/tty; } 2>/dev/null; then
     exit 0
 fi
 echo -en "\033[1;33mWould you like to run PHPCBF? [y|n] \033[0m"

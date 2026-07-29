@@ -7,7 +7,7 @@ if [[ $DIFF -eq 0 ]]; then
     exit 0
 fi
 
-if ! [ -r /dev/tty ]; then
+if ! { : < /dev/tty; } 2>/dev/null; then
     echo -e "\033[0;31mMerge conflict markers detected and no TTY available to confirm. Blocking commit.\033[0m"
     exit 1
 fi
